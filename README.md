@@ -5,4 +5,4 @@ Currently hosted on Kattis
 
 | Problem Set | Questions | At?    |
 |-------------|-----------|--------|
-| 0           | 9/10        | Kattis 
+| 0 (Easy Java Warm up)           | 9/10        | Kattis 
