@@ -14,6 +14,7 @@ public class babypanda {
       // output is number of times panda sneezed
       
       // convert to binary
+      // line 18-25 can be converted into Long.toBinaryString(sc.nextLong()).chars().filter(c -> c == '1').count();
       BigInteger intNoOfSlimes = new BigInteger(noOfSlimes);
       String binarySlimes = intNoOfSlimes.toString(2); // Convert to binary
       int sneezeCount = 0;
