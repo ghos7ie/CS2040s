@@ -5,6 +5,7 @@ class undeadoralive {
         Scanner sc = new Scanner(System.in);
         // I HAD THE RIGHT SOLUTION, BUT I WAS USING SC.NEXT() SO IT ONLY READ UNTIL THE FIRST SPACE
         String input = sc.nextLine();
+        sc.close();
         int smileCount = count(input, ":\\)");
         int frownCount = count(input, ":\\(");
         if (smileCount > 0 && frownCount > 0){

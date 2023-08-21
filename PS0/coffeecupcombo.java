@@ -5,6 +5,7 @@ public class coffeecupcombo{
     Scanner sc = new Scanner(System.in);
     int noOfLect = Integer.parseInt(sc.nextLine());
     String lectCoffee = sc.nextLine();
+    sc.close();
     // loop through the lectures starting at 0 coffees
     int awake = 0;
     int coffeeCount = 0;

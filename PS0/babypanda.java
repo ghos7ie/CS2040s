@@ -8,6 +8,7 @@ public class babypanda {
       String noOfDays = sc.next();
       // Slimes present after [noOfDays] night
       String noOfSlimes = sc.next();
+      sc.close();
       // idea: do in binary since if it sneezes, the count will be 0b1
       // as the slimes continue to split: 0b10 > 0b100 > 0b1000
       // if the panda sneezes again: 0b101 > 0b1010 > 0b10100

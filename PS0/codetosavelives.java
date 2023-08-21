@@ -17,5 +17,6 @@ public class codetosavelives {
             }
             System.out.println();
         }
+        sc.close();
     }
 }

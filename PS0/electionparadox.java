@@ -9,6 +9,7 @@ class electionparadox {
         // split the numbers by space and 
         // then put them into int array
         String[] numbersArr = numbersStr.split(" ", -1);
+        sc.close();
         int[] population  = new int[regionCount];
         for(int i = 0; i < regionCount; i++){
           population[i] = Integer.parseInt(numbersArr[i]);
