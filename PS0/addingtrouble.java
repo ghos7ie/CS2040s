@@ -7,7 +7,7 @@ public class addingtrouble {
         int B = sc.nextInt();
         int C = sc.nextInt();
         sc.close();
-        if(A+B==C){
+        if (A + B == C) {
             System.out.println("correct!");
         } else {
             System.out.println("wrong!");
