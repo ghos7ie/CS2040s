@@ -128,7 +128,6 @@ public class tenis {
 			if (valid && p1Win < 2 && p2Win < 2) {
 				valid = false;
 			}
-			sc.close();
 
 			if (valid) {
 				System.out.println("da");
@@ -136,5 +135,6 @@ public class tenis {
 				System.out.println("ne");
 			}
 		}
+					sc.close();
 	}
 }
