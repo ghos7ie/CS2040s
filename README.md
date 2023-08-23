@@ -1,5 +1,6 @@
 # CS2040s
 Code for CS2040s PS
+All codes should have comments to explain my thought process when approaching them!
 
 | Problem Set           | Questions | At?    | Final Rank |
 |-----------------------|-----------|--------|------------|
