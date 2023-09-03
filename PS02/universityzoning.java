@@ -1,48 +1,35 @@
-/*
-  Shared by TA.
-  Using BufferedReader and PrintWriter is a lot faster than Scanner and System.out
-  Around 2 sec faster
-
-  However, 
-  this FastScanner class does not take input line by line.
-  will take input like Scanner.next(), nextInt().
-
-  If there are spaces between your input, and must read by line, just use BufferedReader
-
-  ALSO REMEMBER TO USE 'throws IOException' in main so that don't have to do the tedious try catch loops
-*/
-
-/*
-  Sample code for Buffered Reader and PrintWriter:
-    import java.util.*;
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
-
-  Usage of BufferedReader:
-    String line = br.readLine().strip();
-    String[] firstLine =  br.readLine().split(" ");
-
-  Usage of PrintWriter:
-    pw.println(string); 
-*/
+package PS02;
 
 import java.io.*;
 import java.lang.*;
 import java.util.*;
 
-public class Solution {
+public class universityzoning {
     public static void main(String[] args) throws IOException {
         FastScanner reader = new FastScanner();
         PrintWriter writer = new PrintWriter(System.out);
 
-        // your code goes here
+        // read first line
+        long rows = reader.nextLong();
+        long cols = reader.nextLong();
+        long noFac = reader.nextLong();
+        long noStudents = reader.nextLong();
+        long noCompliant = reader.nextLong();
+
+        // create Array of Coordinates for each faculty
+
+        // reading coordinates assigned to each faculty
+        for (int i = 0; i < noFac; i++) {
+            int noCells = reader.nextInt();
+
+        }
 
         writer.close(); // do not forget!
     }
 
     static class FastScanner {
         BufferedReader br = new BufferedReader(
-                            new InputStreamReader(System.in));
+                new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer("");
 
         String next() {
@@ -68,6 +55,32 @@ public class Solution {
 
         long nextLong() {
             return Long.parseLong(next());
+        }
+    }
+
+    class Coordinate implements Comparable<Coordinate> {
+        public long row;
+        public long col;
+
+        Coordinate(long row, long col) {
+            this.row = row;
+            this.col = col;
+        }
+
+        long getRow() {
+            return row;
+        }
+
+        long getCol() {
+            return col;
+        }
+
+        @Override
+        public int compareTo(Coordinate o) {
+            if (this.row < o.row) {
+                return 1;
+            }
+            
         }
     }
 }
