@@ -1,7 +1,7 @@
 <table>
 <thead>
   <tr>
-    <th>Problem Set<br><br></th>
+    <th>Problem Set</th>
     <th>Question</th>
     <th>Completed</th>
     <th>Remarks</th>
