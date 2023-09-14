@@ -42,9 +42,10 @@ public class Solution {
 
     static class FastScanner {
         BufferedReader br = new BufferedReader(
-                            new InputStreamReader(System.in));
+                new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer("");
 
+        // this method reads until the first space
         String next() {
             while (!st.hasMoreTokens())
                 try {
@@ -68,6 +69,17 @@ public class Solution {
 
         long nextLong() {
             return Long.parseLong(next());
+        }
+
+        // this method reads the entire line
+        String nextLine() {
+            String s = "";
+            try {
+                return s = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return s;
         }
     }
 }
