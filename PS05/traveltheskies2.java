@@ -1,15 +1,17 @@
+
 /**
  * A0253229E
  * Lye Cheng See Lewis
  * LAB 03
  * Ramapriyan
- * traveltheskies
+ * traveltheskies v2 with hashmap
 **/
 import java.io.*;
 import java.lang.*;
 import java.util.*;
 
 class Flight {
+    // sort using this
     int departureDay;
     int start;
     int destination;
@@ -35,7 +37,7 @@ class Departure {
     }
 }
 
-public class traveltheskies {
+public class traveltheskies2 {
 
     public static void main(String[] args) throws IOException {
         FastScanner reader = new FastScanner();
@@ -44,13 +46,13 @@ public class traveltheskies {
         int airportNo = reader.nextInt();
         int departureWindow = reader.nextInt();
         int flightsInWindow = reader.nextInt();
-        ArrayList<ArrayList<Flight>> flightList = new ArrayList<>();
-        ArrayList<ArrayList<Departure>> departureList = new ArrayList<>();
+        HashMap<Integer, ArrayList<Flight>> flightList = new HashMap<>();
+        HashMap<Integer, ArrayList<Departure>> departureList = new HashMap<>();
         boolean optimal = true;
-        // get flight and departures by days so
+
         for (int i = 0; i < departureWindow; i++) {
-            flightList.add(new ArrayList<>());
-            departureList.add(new ArrayList<>());
+            flightList.put(i, new ArrayList<>());
+            departureList.put(i, new ArrayList<>());
         }
 
         while (flightsInWindow-- > 0) {
