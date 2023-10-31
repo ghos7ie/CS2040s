@@ -92,5 +92,26 @@
     <td>✅</td>
     <td>double PriorityQueue, i'd assume 1 PQ with 1 LL works too.</td>
   </tr>
+    <td rowspan="2">4 - UFDS/Hashtable<br></td>
+    <td>swaptosort</td>
+    <td>✅</td>
+    <td>UFDS. check if number is in same set as number in its opposite position.</td>
+  </tr>
+  <tr>
+    <td>kaploeb</td>
+    <td>✅</td>
+    <td>HashMap. Keep track of lap times + laps completed.</td>
+  </tr>
+  <tr>
+    <td rowspan="2">5 - Combo DS/Graph DS<br></td>
+    <td>kannafriendship</td>
+    <td>✅</td>
+    <td>TreeSet/TreeMap both usable. Took 49 tries to finish. <br>Current logic can be simplified to checking if there are intervals before what is to be inserted. Then while looping to check for further overlaps.</td>
+  </tr>
+  <tr>
+    <td>traveltheskies</td>
+    <td>✅</td>
+    <td>Adjacency List. Loop through days.</td>
+  </tr>
 </tbody>
 </table>
