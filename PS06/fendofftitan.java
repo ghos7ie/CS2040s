@@ -2,74 +2,81 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 
-class Road implements Comparable<Road> { // edge
+class Road { // edges
     int end;
-    int length;
+    long length;
     int obstacle;
 
-    public Road(int end, int length, int obstacle) {
+    public Road(int end, long length, int obstacle) {
         this.end = end;
         this.length = length;
         this.obstacle = obstacle;
     }
 
     @Override
-    public int compareTo(Road o) {
-        if (this.obstacle == o.obstacle) {
-            if (this.length == o.length) {
-                return this.end - o.end;
-            } else {
-                return this.length - o.length;
-            }
-        } else {
-            return this.obstacle - o.obstacle;
+    public String toString() {
+        String o = "NA";
+        if (obstacle == 1) {
+            o = "shaman";
+        } else if (obstacle == 2) {
+            o = "titan";
         }
+        return String.format("%s %s %s", this.end + 1, this.length, o);
     }
 
-    @Override
-    public String toString() {
-        return String.format("(%s, %s, %s)", end, length, obstacle);
-    }
 }
 
 class Village implements Comparable<Village> { // vertex
-    int villageNo;
-    int distance;
+    int no;
+    long distance;
+    int shaman;
+    int titan;
 
-    public Village(int villageNo, int distance) {
-        this.villageNo = villageNo;
+    public Village(int no, long distance, int shaman, int titan) {
+        this.no = no;
         this.distance = distance;
+        this.shaman = shaman;
+        this.titan = titan;
     }
 
     @Override
     public int compareTo(Village o) {
-        if (this.distance == o.distance) {
-            return this.villageNo - o.villageNo;
+        if (this.titan == o.titan) {
+            if (this.shaman == o.shaman) {
+                return Long.compare(this.distance, o.distance);
+            } else {
+                return this.shaman - o.shaman;
+            }
         } else {
-            return this.distance - o.distance;
+            return this.titan - o.titan;
         }
-    }
-}
-
-class Distance {
-    int distance;
-    int shamanCount; // stores number of shamans encountered so far
-    int titanCount; // stores number of titans encountered so far
-
-    public Distance(int distance, int shamanCount, int titanCount) {
-        this.distance = distance;
-        this.shamanCount = shamanCount;
-        this.titanCount = titanCount;
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s %s", this.distance, this.shamanCount, this.titanCount);
+        return String.format("(%s %s %s %s)", (this.no + 1), this.distance, this.shaman, this.titan);
+    }
+}
+
+class Distance {
+    long distance;
+    int shaman;
+    int titan;
+
+    public Distance(long distance, int shaman, int titan) {
+        this.distance = distance;
+        this.shaman = shaman;
+        this.titan = titan;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", this.distance, this.shaman, this.titan);
     }
 }
 
 public class fendofftitan {
-    public static final int INF = 1000000000;
+    public static long INF = 1000000000;
 
     public static void main(String[] args) throws IOException {
         FastScanner reader = new FastScanner();
@@ -78,8 +85,8 @@ public class fendofftitan {
         // your code goes here
         int noVillages = reader.nextInt();
         int noRoads = reader.nextInt();
-        int startVillage = reader.nextInt() - 1;
-        int destinationVillage = reader.nextInt() - 1;
+        int startV = reader.nextInt() - 1;
+        int destinationV = reader.nextInt() - 1;
 
         // AL for containing roads leading out of start villages (aka paths)
         ArrayList<ArrayList<Road>> AL = new ArrayList<>();
@@ -90,7 +97,7 @@ public class fendofftitan {
         while (noRoads-- > 0) {
             int start = reader.nextInt() - 1;
             int end = reader.nextInt() - 1;
-            int length = reader.nextInt();
+            long length = reader.nextInt();
             // 0 - none, 1 - shaman, 2 - titan
             int obstacle = reader.nextInt();
 
@@ -99,60 +106,48 @@ public class fendofftitan {
             AL.get(end).add(new Road(start, length, obstacle));
         }
 
-        if (AL.get(destinationVillage).size() == 0) {
-            writer.println("IMPOSSIBLE"); // early termination if destination has no roads
+        if (AL.get(destinationV).size() == 0) {
+            writer.println("IMPOSSIBLE");
         } else {
-            // sort all the roads first
-            for (ArrayList<Road> R : AL) {
-                Collections.sort(R);
-            }
-
-            // initialise distance array
-            Distance[] dist = new Distance[noVillages];
+            Distance[] distArr = new Distance[noVillages];
             for (int i = 0; i < noVillages; i++) {
-                dist[i] = new Distance(INF, INF, INF);
+                distArr[i] = new Distance(INF, 1000000000, 1000000000);
             }
+            distArr[startV] = new Distance(0, 0, 0);
 
-            dist[startVillage].distance = 0;
-            dist[startVillage].shamanCount = 0;
-            dist[startVillage].titanCount = 0;
+            PriorityQueue<Village> pqVillage = new PriorityQueue<>();
+            pqVillage.offer(new Village(startV, 0, 0, 0));
 
-            TreeSet<Village> tsVillage = new TreeSet<>();
-            for (int i = 0; i < noVillages; i++) {
-                tsVillage.add(new Village(i, dist[i].distance));
-            }
-
-            while (!tsVillage.isEmpty()) {
-                Village top = tsVillage.pollFirst();
-                int start = top.villageNo;
-                for (Road road : AL.get(start)) {
-                    /*
-                     * 3 criterias for distance "improving" by order of importance
-                     * 1. titan count goes down
-                     * 2. shaman count goes down
-                     * 3. distance goes down
-                     */
-                    int shaman = road.obstacle == 1 ? 1 : 0;
-                    int titan = road.obstacle == 2 ? 1 : 0;
-                    int end = road.end;
-                    int distance = road.length;
-                    if (dist[start].distance + distance >= dist[end].distance) {
-                        continue;
+            while (!pqVillage.isEmpty()) {
+                writer.println(pqVillage);
+                Village current = pqVillage.poll();
+                writer.println(current);
+                if (current.no == destinationV) {
+                    break;
+                }
+                // only take the village with the most updated distance value
+                if (current.distance == distArr[current.no].distance && current.shaman == distArr[current.no].shaman
+                        && current.titan == distArr[current.no].titan) {
+                    for (Road r : AL.get(current.no)) {
+                        int shaman = r.obstacle == 1 ? 1 : 0;
+                        shaman += current.shaman;
+                        int titan = r.obstacle == 2 ? 1 : 0;
+                        titan += current.titan;
+                        long distance = r.length + current.distance;
+                        // if any of these decreases, it is an improvement
+                        if (titan < distArr[r.end].titan || shaman < distArr[r.end].shaman
+                                || distance < distArr[r.end].distance) {
+                            distArr[r.end] = new Distance(distance, shaman, titan);
+                            pqVillage.offer(new Village(r.end, distance, shaman, titan));
+                        }
                     }
-                    // if (dist[start].titanCount + titan >= dist[end].titanCount) {
-                    //     continue;
-                    // }
-                    // if (dist[start].shamanCount + shaman >= dist[end].shamanCount) {
-                    //     continue;
-                    // }
-                    tsVillage.remove(new Village(end, dist[end].distance));
-                    dist[end].distance = dist[start].distance + distance;
-                    dist[end].shamanCount = dist[start].shamanCount + shaman;
-                    dist[end].titanCount = dist[start].titanCount + titan;
-                    tsVillage.add(new Village(end, dist[end].distance));
                 }
             }
-            writer.println(dist[destinationVillage]);
+            if (distArr[destinationV].distance == INF) {
+                writer.println("IMPOSSIBLE");
+            } else {
+                writer.println(distArr[destinationV]);
+            }
         }
         writer.close(); // do not forget!
     }
@@ -186,17 +181,6 @@ public class fendofftitan {
 
         long nextLong() {
             return Long.parseLong(next());
-        }
-
-        // this method reads the entire line
-        String nextLine() {
-            String s = "";
-            try {
-                return s = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return s;
         }
     }
 }
