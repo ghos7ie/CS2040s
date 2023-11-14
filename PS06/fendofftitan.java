@@ -76,7 +76,7 @@ class Distance {
 }
 
 public class fendofftitan {
-    public static long INF = 1000000000;
+    public static long INF = 1000000000000L;
 
     public static void main(String[] args) throws IOException {
         FastScanner reader = new FastScanner();
@@ -119,9 +119,7 @@ public class fendofftitan {
             pqVillage.offer(new Village(startV, 0, 0, 0));
 
             while (!pqVillage.isEmpty()) {
-                writer.println(pqVillage);
                 Village current = pqVillage.poll();
-                writer.println(current);
                 if (current.no == destinationV) {
                     break;
                 }
@@ -134,9 +132,10 @@ public class fendofftitan {
                         int titan = r.obstacle == 2 ? 1 : 0;
                         titan += current.titan;
                         long distance = r.length + current.distance;
-                        // if any of these decreases, it is an improvement
-                        if (titan < distArr[r.end].titan || shaman < distArr[r.end].shaman
-                                || distance < distArr[r.end].distance) {
+                        // what constitutes as not improving
+                        if (distArr[r.end].titan > titan
+                                || (distArr[r.end].titan == titan && distArr[r.end].shaman > shaman)
+                                || (distArr[r.end].titan == titan && distArr[r.end].shaman == shaman && distArr[r.end].distance > distance)) {
                             distArr[r.end] = new Distance(distance, shaman, titan);
                             pqVillage.offer(new Village(r.end, distance, shaman, titan));
                         }
